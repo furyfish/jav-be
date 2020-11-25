@@ -1,24 +1,18 @@
 module.exports = (sequelize, Sequelize) => {
 
-    const Verb = sequelize.define("verb", {
+    const Form = sequelize.define("form", {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        plain: {
+        name_vn: {
             type: Sequelize.STRING
         },
-        polite: {
+        name_en: {
             type: Sequelize.STRING
         },
-        furigana: {
-            type: Sequelize.STRING
-        },
-        vietnamese: {
-            type: Sequelize.STRING
-        },
-        english: {
+        name_jp: {
             type: Sequelize.STRING
         },
         group: {
@@ -26,5 +20,5 @@ module.exports = (sequelize, Sequelize) => {
         }
     });
 
-    return Verb;
+    return Form;
 };

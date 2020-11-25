@@ -42,10 +42,11 @@ db.sequelize.sync();
 
 // simple route
 app.get("/", (req, res) => {
-    res.json({ message: "Welcome to verb application." });
+    res.json({ message: "Welcome to jav application." });
 });
 
 require("./app/routes/verb.routes")(app);
+require("./app/routes/form.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8081;

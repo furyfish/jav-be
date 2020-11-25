@@ -4,6 +4,9 @@ module.exports = app => {
     var router = require("express").Router();
 
     // Retrieve a random Verb
+    router.get("/random", verb.findRandom);
+
+    // Retrieve a random Verb
     router.get("/one", verb.findOneOrderByRandom);
 
     // Retrieve all Verbs
