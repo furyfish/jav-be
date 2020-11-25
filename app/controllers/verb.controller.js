@@ -48,14 +48,15 @@ exports.findRandom = (req, res) => {
                     // }
 
                     // calc result
-                    let result = "";
+                    let result1 = "";
+                    let result2 = "";
 
                     if (idx3 == 0) {    // tu dien
-                        result = verb[0].plain;
-                        let lastCharacter = verb[0].plain.charAt(verb[0].plain.length - 1);
+                        result1 = verb[0].jisho;
+                        let lastCharacter = result1.charAt(result1.length - 1);
                         if (idx1 == 0) {    // qua khu
                             if (idx2 == 0) {    // phu dinh
-                                result = replaceLastCharacter(result, convertToVNa(lastCharacter)).concat("なかった");
+                                result1 = replaceLastCharacter(result1, convertToVNai(lastCharacter)).concat("なかった");
                             } else {    // khang dinh
                                 switch (verb[0].group) {
                                     case 1:
@@ -63,21 +64,21 @@ exports.findRandom = (req, res) => {
                                             case "う":
                                             case "つ":
                                             case "る":
-                                                result = replaceLastCharacter(result, "った");
+                                                result1 = replaceLastCharacter(result1, "った");
                                                 break;
                                             case "む":
                                             case "ぶ":
                                             case "ぬ":
-                                                result = replaceLastCharacter(result, "んた");
+                                                result1 = replaceLastCharacter(result1, "んた");
                                                 break;
                                             case "す":
-                                                result = replaceLastCharacter(result, "した");
+                                                result1 = replaceLastCharacter(result1, "した");
                                                 break;
                                             case "く":
-                                                result = replaceLastCharacter(result, "いた");
+                                                result1 = replaceLastCharacter(result1, "いた");
                                                 break;
                                             case "ぐ":
-                                                result = replaceLastCharacter(result, "いだ");
+                                                result1 = replaceLastCharacter(result1, "いだ");
                                                 break;
                                             default:
                                                 break;
@@ -88,7 +89,7 @@ exports.findRandom = (req, res) => {
                                     case 3:
                                         break;
                                     case 4:
-                                        result = replaceLastCharacter(result, "った");
+                                        result1 = replaceLastCharacter(result1, "った");
                                         break;
                                     default:
                                         break;
@@ -96,29 +97,34 @@ exports.findRandom = (req, res) => {
                             }
                         } else {    // hien tai
                             if (idx2 == 0) {    // phu dinh
-                                result = convertToNaiForm();
+                                result1 = replaceLastCharacter(result1, convertToNaiForm(lastCharacter));
                             } else {    // khang dinh
-                                result = verb[0].plain;
+                                result1 = result1;
                             }
                         }
                     } else {    // lich su
+                        result1 = verb[0].jisho;
+                        let lastCharacter = result1.charAt(result1.length - 1);
+                        result1 = replaceLastCharacter(result1, convertToVMasu(lastCharacter));
                         if (idx1 == 0) {    // qua khu
                             if (idx2 == 0) {    // phu dinh
-                                result = verb[0].polite.concat("ませんでした");
+                                result1 = result1.concat("ませんでした");
                             } else {    // khang dinh
-                                result = verb[0].polite.concat("でした");
+                                result1 = replaceLastCharacter(result1, convertToMasuForm(lastCharacter));
                             }
                         } else {
+                            convertToVMasu
                             if (idx2 == 0) {    // phu dinh
-                                result = verb[0].polite.concat("ません");
+                                result1 = result1.concat("ません");
                             } else {    // khang dinh
-                                result = verb[0].polite.concat("ます");
+                                result1 = result1.concat("ます");
                             }
                         }
                     }
 
                     // set form name
-                    const verbDTO = new VerbDTO(verb[0].id, verb[0].plain, verb[0].polite, verb[0].furigana, verb[0].vietnamese, verb[0].english, verb[0].group, form1, form2, form3, result);
+                    result2 = result1.replace(/^./, verb[0].furigana);
+                    const verbDTO = new VerbDTO(verb[0].id, verb[0].jisho, verb[0].furigana, verb[0].vietnamese, verb[0].english, verb[0].group, form1, form2, form3, result1, result2);
 
                     res.send(verbDTO);
                 })
@@ -189,9 +195,23 @@ function getRandomNumberInRange(min, max) {
     return Math.round(Math.random() * (max - min)) + min;
 }
 
-function convertToVNa(charToConvert) {
-    var input = 'うくすつぬふむゆる';
-    var output = 'あかさたなはまやら';
+function convertToVMasu(charToConvert) {
+    var input = 'うくすつぬふむるぐずづぶぷ';
+    var output = 'いきしちにひみりぎじぢびぴ';
+    var idx = input.indexOf(charToConvert);
+    if (idx < 0) {
+        return charToConvert;
+    }
+    return output.charAt(idx);
+}
+
+function convertToMasuForm(charToConvert) {
+    return convertToVMasu(charToConvert).concat("ます");
+}
+
+function convertToVNai(charToConvert) {
+    var input = 'うくすつぬふむゆるぐずづぶぷ';
+    var output = 'あかさたなはまやらがざだばぱ';
     var idx = input.indexOf(charToConvert);
     if (idx < 0) {
         return charToConvert;
@@ -200,7 +220,7 @@ function convertToVNa(charToConvert) {
 }
 
 function convertToNaiForm(charToConvert) {
-    return convertToVNa(charToConvert).concat("ない");
+    return convertToVNai(charToConvert).concat("ない");
 }
 
 function replaceLastCharacter(string, replaceWith) {

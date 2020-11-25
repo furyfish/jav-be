@@ -1,10 +1,9 @@
 
 class VerbDTO {
 
-    constructor(id, plain, polite, furigana, vietnamese, english, group, form1, form2, form3, result) {
+    constructor(id, jisho, furigana, vietnamese, english, group, form1, form2, form3, result1, result2) {
         this.id = id;
-        this.plain = plain;
-        this.polite = polite;
+        this.jisho = jisho;
         this.furigana = furigana;
         this.vietnamese = vietnamese;
         this.english = english;
@@ -12,7 +11,8 @@ class VerbDTO {
         this.form1 = form1;
         this.form2 = form2;
         this.form3 = form3;
-        this.result = result;
+        this.result1 = result1;
+        this.result2 = result2;
     }
 }
 

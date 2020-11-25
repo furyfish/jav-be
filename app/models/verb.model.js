@@ -6,10 +6,7 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
             autoIncrement: true
         },
-        plain: {
-            type: Sequelize.STRING
-        },
-        polite: {
+        jisho: {
             type: Sequelize.STRING
         },
         furigana: {
