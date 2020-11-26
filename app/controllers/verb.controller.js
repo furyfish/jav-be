@@ -52,7 +52,7 @@ exports.findRandom = (req, res) => {
                     let result2 = "";
 
                     if (idx3 == 0) {    // tu dien
-                        result1 = verb[0].jisho;
+                        result1 = verb[0].kanji;
                         let lastCharacter = result1.charAt(result1.length - 1);
                         if (idx1 == 0) {    // qua khu
                             if (idx2 == 0) {    // phu dinh
@@ -103,7 +103,7 @@ exports.findRandom = (req, res) => {
                             }
                         }
                     } else {    // lich su
-                        result1 = verb[0].jisho;
+                        result1 = verb[0].kanji;
                         let lastCharacter = result1.charAt(result1.length - 1);
                         result1 = replaceLastCharacter(result1, convertToVMasu(lastCharacter));
                         if (idx1 == 0) {    // qua khu
@@ -123,8 +123,9 @@ exports.findRandom = (req, res) => {
                     }
 
                     // set form name
+                    jisho = "";
                     result2 = result1.replace(/^./, verb[0].furigana);
-                    const verbDTO = new VerbDTO(verb[0].id, verb[0].jisho, verb[0].furigana, verb[0].vietnamese, verb[0].english, verb[0].group, form1, form2, form3, result1, result2);
+                    const verbDTO = new VerbDTO(verb[0].id, verb[0].kanji, verb[0].furigana, verb[0].vietnamese, verb[0].english, verb[0].group, jisho, form1, form2, form3, result1, result2);
 
                     res.send(verbDTO);
                 })
