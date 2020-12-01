@@ -212,7 +212,7 @@ function convertToMasuForm(charToConvert) {
 
 function convertToVNai(charToConvert) {
     var input = 'うくすつぬふむゆるぐずづぶぷ';
-    var output = 'あかさたなはまやらがざだばぱ';
+    var output = 'わかさたなはまやらがざだばぱ';
     var idx = input.indexOf(charToConvert);
     if (idx < 0) {
         return charToConvert;
