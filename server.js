@@ -47,7 +47,6 @@ app.get("/", (req, res) => {
 });
 
 require("./app/routes/verb.routes")(app);
-require("./app/routes/form.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8081;

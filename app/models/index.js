@@ -26,5 +26,7 @@ db.sequelize = sequelize;
 
 db.verb = require("./verb.model.js")(sequelize, Sequelize);
 db.form = require("./form.model.js")(sequelize, Sequelize);
+db.tense = require("./tense.model.js")(sequelize, Sequelize);
+db.type = require("./type.model.js")(sequelize, Sequelize);
 
 module.exports = db;

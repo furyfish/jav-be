@@ -1,142 +1,156 @@
 const db = require("../models");
 const Verb = db.verb;
 const Form = db.form;
+const Tense = db.tense;
+const Type = db.type;
 
 const VerbDTO = require("../dtos/verb.dto");
 
 // Retrieve a random Verb from the database.
-exports.findRandom = (req, res) => {
-    let group1 = [];
-    let group2 = [];
-    let group3 = [];
-    let group4 = [];
-    Form.findAll()
-        .then(forms => {
-            forms.forEach(form => {
-                switch (form.group) {
-                    case 1:
-                        group1.push(form);
-                        break;
-                    case 2:
-                        group2.push(form);
-                        break;
-                    case 3:
-                        group3.push(form);
-                        break;
-                    case 4:
-                        group4.push(form);
-                        break;
-                    default:
-                        break;
-                }
-            });
+exports.findRandom = async (req, res) => {
+    var forms = new Map();
+    var tenses = new Map();
+    var types = new Map();
 
-            Verb.findAll({order: db.Sequelize.literal('rand()'), limit: 1})
-                .then(verb => {
-                    let idx1 = getRandomNumberInRange(0, group1.length - 1);
-                    let idx2 = getRandomNumberInRange(0, group2.length - 1);
-                    var form1 = group1[idx1].name_vn;
-                    var form2 = group2[idx2].name_vn;
-                    var form3 = "";
+    let data = await Form.findAll();
+    data.forEach(form => {
+        forms.set(form.id, form);
+    });
 
-                    // if (idx1 == 0 || idx2 == 0) {
-                    let idx3 = getRandomNumberInRange(0, group3.length - 1);
-                    form3 = group3[idx3].name_vn;
-                    // } else {
-                    //     let idx3 = getRandomNumberInRange(0, group4.length - 1);
-                    //     form3 = group4[idx3].name_vn;
-                    // }
+    data = await Tense.findAll();
+    data.forEach(tense => {
+        tenses.set(tense.id, tense);
+    });
 
-                    // calc result
-                    let result1 = "";
-                    let result2 = "";
+    data = await Type.findAll();
+    data.forEach(type => {
+        types.set(type.id, type);
+    });
 
-                    if (idx3 == 0) {    // tu dien
-                        result1 = verb[0].kanji;
-                        let lastCharacter = result1.charAt(result1.length - 1);
-                        if (idx1 == 0) {    // qua khu
-                            if (idx2 == 0) {    // phu dinh
-                                result1 = replaceLastCharacter(result1, convertToVNai(lastCharacter)).concat("なかった");
-                            } else {    // khang dinh
-                                switch (verb[0].group) {
-                                    case 1:
-                                        switch (lastCharacter) {
-                                            case "う":
-                                            case "つ":
-                                            case "る":
-                                                result1 = replaceLastCharacter(result1, "った");
-                                                break;
-                                            case "む":
-                                            case "ぶ":
-                                            case "ぬ":
-                                                result1 = replaceLastCharacter(result1, "んた");
-                                                break;
-                                            case "す":
-                                                result1 = replaceLastCharacter(result1, "した");
-                                                break;
-                                            case "く":
-                                                result1 = replaceLastCharacter(result1, "いた");
-                                                break;
-                                            case "ぐ":
-                                                result1 = replaceLastCharacter(result1, "いだ");
-                                                break;
-                                            default:
-                                                break;
-                                        }
-                                        break;
-                                    case 2:
-                                        break;
-                                    case 3:
-                                        break;
-                                    case 4:
-                                        result1 = replaceLastCharacter(result1, "った");
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
-                        } else {    // hien tai
-                            if (idx2 == 0) {    // phu dinh
-                                result1 = replaceLastCharacter(result1, convertToNaiForm(lastCharacter));
-                            } else {    // khang dinh
-                                result1 = result1;
-                            }
-                        }
-                    } else {    // lich su
-                        result1 = verb[0].kanji;
-                        let lastCharacter = result1.charAt(result1.length - 1);
-                        result1 = replaceLastCharacter(result1, convertToVMasu(lastCharacter));
-                        if (idx1 == 0) {    // qua khu
-                            if (idx2 == 0) {    // phu dinh
-                                result1 = result1.concat("ませんでした");
-                            } else {    // khang dinh
-                                result1 = replaceLastCharacter(result1, convertToMasuForm(lastCharacter));
-                            }
-                        } else {
-                            convertToVMasu
-                            if (idx2 == 0) {    // phu dinh
-                                result1 = result1.concat("ません");
-                            } else {    // khang dinh
-                                result1 = result1.concat("ます");
-                            }
-                        }
+    let verb = await Verb.findAll({order: db.Sequelize.literal('rand()'), limit: 1});
+
+    // calc result
+    let result1 = '';
+    let result2 = '';
+    let lastCharacter = '';
+    var form = '';
+    var tense = '';
+    var type = '';
+    let weight = getRandomNumberInRange(1, 8);
+
+    switch (weight) {
+        case 1: // tu dien + qua khu + khang dinh
+            form = forms.get(1);
+            tense = tenses.get(2);
+            type = types.get(1);
+            type = '';
+            result1 = verb[0].kanji;
+            lastCharacter = result1.charAt(result1.length - 1);
+            switch (verb[0].group) {
+                case 1:
+                    switch (lastCharacter) {
+                        case "う":
+                        case "つ":
+                        case "る":
+                            result1 = replaceLastCharacter(result1, "った");
+                            break;
+                        case "む":
+                        case "ぶ":
+                        case "ぬ":
+                            result1 = replaceLastCharacter(result1, "んた");
+                            break;
+                        case "す":
+                            result1 = replaceLastCharacter(result1, "した");
+                            break;
+                        case "く":
+                            result1 = replaceLastCharacter(result1, "いた");
+                            break;
+                        case "ぐ":
+                            result1 = replaceLastCharacter(result1, "いだ");
+                            break;
+                        default:
+                            break;
                     }
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    result1 = replaceLastCharacter(result1, "った");
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case 2: // tu dien + qua khu + phu dinh
+            form = forms.get(1);
+            tense = tenses.get(2);
+            type = types.get(2);
+            result1 = verb[0].kanji;
+            lastCharacter = result1.charAt(result1.length - 1);
+            result1 = replaceLastCharacter(result1, convertToVNai(lastCharacter)).concat("なかった");
+            break;
+        case 3: // tu dien + hien tai/tuong lai + khang dinh
+            form = forms.get(1);
+            tense = tenses.get(1);
+            type = types.get(1);
+            result1 = verb[0].kanji;
+            break;
+        case 4: // tu dien + hien tai/tuong lai + phu dinh
+            form = forms.get(1);
+            tense = tenses.get(1);
+            type = types.get(2);
+            result1 = verb[0].kanji;
+            lastCharacter = result1.charAt(result1.length - 1);
+            result1 = replaceLastCharacter(result1, convertToNaiForm(lastCharacter));
+            break;
+        case 5: // lich su + qua khu + khang dinh
+            form = forms.get(2);
+            tense = tenses.get(2);
+            type = types.get(1);
+            result1 = verb[0].kanji;
+            lastCharacter = result1.charAt(result1.length - 1);
+            result1 = replaceLastCharacter(result1, convertToVMasu(lastCharacter));
+            result1 = replaceLastCharacter(result1, convertToMasuForm(lastCharacter));
+            break;
+        case 6: // lich su + qua khu + phu dinh
+            form = forms.get(2);
+            tense = tenses.get(2);
+            type = types.get(2);
+            result1 = verb[0].kanji;
+            lastCharacter = result1.charAt(result1.length - 1);
+            result1 = replaceLastCharacter(result1, convertToVMasu(lastCharacter));
+            result1 = result1.concat("ませんでした");
+            break;
+        case 7: // lich su + hien tai/tuong lai + khang dinh
+            form = forms.get(2);
+            tense = tenses.get(1);
+            type = types.get(1);
+            result1 = verb[0].kanji;
+            lastCharacter = result1.charAt(result1.length - 1);
+            result1 = replaceLastCharacter(result1, convertToVMasu(lastCharacter));
+            result1 = result1.concat("ます");
+            break;
+        case 8: // lich su + hien tai/tuong lai + phu dinh
+            form = forms.get(2);
+            tense = tenses.get(1);
+            type = types.get(2);
+            result1 = verb[0].kanji;
+            lastCharacter = result1.charAt(result1.length - 1);
+            result1 = replaceLastCharacter(result1, convertToVMasu(lastCharacter));
+            result1 = result1.concat("ません");
+            break;
+        default:
+            break;
+    }
 
-                    // set form name
-                    jisho = "";
-                    result2 = result1.replace(/^./, verb[0].furigana);
-                    const verbDTO = new VerbDTO(verb[0].id, verb[0].kanji, verb[0].furigana, verb[0].vietnamese, verb[0].english, verb[0].group, jisho, form1, form2, form3, result1, result2);
+    // set form name
+    jisho = "";
+    result2 = result1.replace(/^./, verb[0].furigana);
+    const verbDTO = new VerbDTO(verb[0].id, verb[0].kanji, verb[0].furigana, verb[0].vietnamese, verb[0].english, verb[0].group, jisho, form, tense, type, result1, result2);
 
-                    res.send(verbDTO);
-                })
-                .catch(err => {
-                    res.status(500).send({
-                        message:
-                            err.message || "Some error occurred while retrieving forms."
-                    });
-                });
-        });
-
+    res.send(verbDTO);
 };
 
 // Retrieve a random Verb from the database.
