@@ -43,7 +43,6 @@ exports.findRandom = async (req, res) => {
             form = forms.get(1);
             tense = tenses.get(2);
             type = types.get(1);
-            type = '';
             result1 = verb[0].kanji;
             lastCharacter = result1.charAt(result1.length - 1);
             switch (verb[0].group) {
