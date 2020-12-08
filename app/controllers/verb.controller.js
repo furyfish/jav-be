@@ -27,9 +27,24 @@ exports.findRandom = async (req, res) => {
         types.set(type.id, type);
     });
 
-    var dictionary = req.query.dictionary;
-    var polite = req.query.polite;
-    var tform = req.query.tform;
+    var dictionary = req.query.dictionary == 'true';
+    var polite = req.query.polite == 'true';
+    var tform = req.query.tform == 'true';
+
+    var activeForms = [];
+    if (dictionary) {
+        activeForms = activeForms.concat([1, 2, 3, 4]);
+    }
+    if (polite) {
+        activeForms = activeForms.concat([5, 6, 7, 8]);
+    }
+    if (tform) {
+        activeForms.push(9);
+    }
+
+    if (activeForms.length == 0) {
+        activeForms = activeForms.concat([1, 2, 3, 4]).concat([5, 6, 7, 8]);
+    }
 
     let verb = await Verb.findAll({order: db.Sequelize.literal('rand()'), limit: 1});
 
@@ -40,9 +55,9 @@ exports.findRandom = async (req, res) => {
     let form = '';
     let tense = '';
     let type = '';
-    let weight = getRandomNumberInRange(8, 9);
+    let index = getRandomNumberInRange(0, activeForms.length - 1);
 
-    switch (weight) {
+    switch (activeForms[index]) {
         case 1: // tu dien + qua khu + khang dinh
             form = forms.get(1);
             tense = tenses.get(2);
