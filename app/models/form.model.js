@@ -14,9 +14,6 @@ module.exports = (sequelize, Sequelize) => {
         },
         name_jp: {
             type: Sequelize.STRING
-        },
-        group: {
-            type: Sequelize.INTEGER
         }
     });
 
