@@ -7,6 +7,8 @@ const MasuFormResult = require("../form_result/MasuFormResult");
 const NaiFormResult = require("../form_result/NaiFormResult");
 const TaFormResult = require("../form_result/TaFormResult");
 const TeFormResult = require("../form_result/TeFormResult");
+const PotentialFormResult = require("../form_result/PotentialFormResult");
+const PassiveFormResult = require("../form_result/PassiveFormResult");
 
 module.exports = class ResultFactory {
     constructor(verb, form) {
@@ -40,6 +42,10 @@ module.exports = class ResultFactory {
                 return new TaFormResult(verb, type);
             case 4: // the te
                 return new TeFormResult(verb);
+            case 5: // the kha nang
+                return new PotentialFormResult(verb);
+            case 6: // the bi dong
+                return new PassiveFormResult(verb);
             default:
                 break;
         }

@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 // Add headers
 app.use(function (req, res, next) {
 
-        var allowedOrigins = ['http://localhost:4200', 'http://localhost', 'http://35.247.142.242', 'http://jav4u.tk', 'http://www.jav4u.tk'];
+        var allowedOrigins = ['http://localhost:4200', 'http://localhost', 'http://35.247.142.242', 'http://jav4u.tk', 'http://www.jav4u.tk', 'http://www.jav4u.tk/'];
 
         var origin = req.headers.origin;
 

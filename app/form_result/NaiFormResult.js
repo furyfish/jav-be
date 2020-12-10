@@ -26,8 +26,8 @@ module.exports = class NaiFormResult extends FormResult {
     }
 
     static convertLastCharacterToVnai(kanji) {
-        var input = "うくすつぬふむゆるぐずづぶぷ";
-        var output = "わかさたなはまやらがざだばぱ";
+        let input = "うくすつぬふむゆるぐずづぶぷ";
+        let output = "わかさたなはまやらがざだばぱ";
         let lastCharacter = kanji.charAt(kanji.length - 1);
         let idx = input.indexOf(lastCharacter);
         if (idx < 0) {

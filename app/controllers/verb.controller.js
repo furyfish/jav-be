@@ -21,6 +21,8 @@ exports.findRandom = async (req, res) => {
     let naiForm = req.query.naiForm == CommonConstants.ENABLED_FORM;
     let taForm = req.query.taForm == CommonConstants.ENABLED_FORM;
     let teForm = req.query.teForm == CommonConstants.ENABLED_FORM;
+    let potentialForm = req.query.potentialForm == CommonConstants.ENABLED_FORM;
+    let passiveForm = req.query.passiveForm == CommonConstants.ENABLED_FORM;
     let activeForms = [];
     if (masuForm) {
         activeForms.push(forms.get(1).id);
@@ -33,6 +35,12 @@ exports.findRandom = async (req, res) => {
     }
     if (teForm) {
         activeForms.push(forms.get(4).id);
+    }
+    if (potentialForm) {
+        activeForms.push(forms.get(5).id);
+    }
+    if (passiveForm) {
+        activeForms.push(forms.get(6).id);
     }
     if (activeForms.length == 0) {
         activeForms.push(forms.get(1).id);
