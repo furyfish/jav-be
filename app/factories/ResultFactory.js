@@ -9,6 +9,7 @@ const TaFormResult = require("../form_result/TaFormResult");
 const TeFormResult = require("../form_result/TeFormResult");
 const PotentialFormResult = require("../form_result/PotentialFormResult");
 const PassiveFormResult = require("../form_result/PassiveFormResult");
+const ConditionalFormResult = require("../form_result/ConditionalFormResult");
 
 module.exports = class ResultFactory {
     constructor(verb, form) {
@@ -38,7 +39,7 @@ module.exports = class ResultFactory {
                 return new MasuFormResult(verb, tense, type);
             case 2: // the phu dinh
                 return new NaiFormResult(verb);
-            case 3: // the ta
+            case 3: // the qua khu
                 return new TaFormResult(verb, type);
             case 4: // the te
                 return new TeFormResult(verb);
@@ -46,6 +47,8 @@ module.exports = class ResultFactory {
                 return new PotentialFormResult(verb);
             case 6: // the bi dong
                 return new PassiveFormResult(verb);
+            case 8: // the dieu kien
+                return new ConditionalFormResult(verb);
             default:
                 break;
         }
