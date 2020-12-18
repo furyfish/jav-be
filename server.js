@@ -4,39 +4,13 @@ const cors = require("cors");
 
 const app = express();
 
-var corsOptions = {
-    origin: "http://localhost:8081"
-};
-
-app.use(cors(corsOptions));
-app.options('*', cors());
+app.use(cors())
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: true}));
-
-// Add headers
-app.use(function (req, res, next) {
-
-        var allowedOrigins = ['http://localhost:4200', 'http://localhost', 'http://35.247.142.242', 'http://jav4u.tk', 'http://www.jav4u.tk', 'http://www.jav4u.tk/'];
-
-        var origin = req.headers.origin;
-
-        if (allowedOrigins.indexOf(origin) > -1) {
-            res.setHeader('Access-Control-Allow-Origin', origin);
-        }
-
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-        res.setHeader('Access-Control-Allow-Credentials', true);
-
-        next();
-    }
-);
 
 const db = require("./app/models");
 db.sequelize.sync();
