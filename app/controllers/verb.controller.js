@@ -60,7 +60,7 @@ exports.findRandom = async (req, res) => {
     let result = await new ResultFactory(verb, form);
     let result1 = result.result1;
     let result2 = result1.replace(/^./, verb[0].furigana).replace(/\[/g, '').replace(/\]/g, '');
-    const verbDTO = new VerbDTO(verb[0].id, verb[0].kanji, verb[0].furigana, verb[0].vietnamese, verb[0].english, verb[0].group, '', form, result.tense, result.type, result1, result2);
+    const verbDTO = new VerbDTO(verb[0].id, verb[0].kanji, verb[0].furigana, verb[0].name_vn, verb[0].name_en, verb[0].group, '', form, result.tense, result.type, result1, result2);
 
     res.send(verbDTO);
 };

@@ -12,10 +12,10 @@ module.exports = (sequelize, Sequelize) => {
         furigana: {
             type: Sequelize.STRING
         },
-        vietnamese: {
+        name_vn: {
             type: Sequelize.STRING
         },
-        english: {
+        name_en: {
             type: Sequelize.STRING
         },
         group: {
