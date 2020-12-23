@@ -1,29 +1,34 @@
 const StringUtils = require("../utils/StringUtils");
-const FormResult = require("../form_result/FormResult");
+const FormResult = require(".//FormResult");
 
-module.exports = class ConditionalFormResult extends FormResult {
+module.exports = class PotentialFormResult extends FormResult {
     constructor(verb) {
         super();
-        this.result1 = ConditionalFormResult.convertVerbToVconditional(verb);
+        this.result1 = PotentialFormResult.convertVerbToVpotential(verb);
         return this;
     }
 
-    static convertVerbToVconditional(verb) {
+    static convertVerbToVpotential(verb) {
         let group = verb[0].group;
         let kanji = verb[0].kanji;
         switch (group) {
             case 1:
             case 4:
-                return this.convertLastCharacterToVconditional(kanji).concat("ば");
+                return this.convertLastCharacterToVpotential(kanji).concat("る");
             case 2:
+                return StringUtils.repmoveLastCharacter(kanji).concat("られる");
             case 3:
-                return StringUtils.repmoveLastCharacter(kanji).concat("れば");
+                if (verb[0].furigana.contains("す")) {
+                    return "できる";
+                } else if (verb[0].furigana.contains("く")) {
+                    return "こられる";
+                }
             default:
                 break;
         }
     }
 
-    static convertLastCharacterToVconditional(kanji) {
+    static convertLastCharacterToVpotential(kanji) {
         let input = "うくすつぬふむるぐずづぶぷ";
         let output = "えけせてねへめれげぜでべぺ";
         let lastCharacter = kanji.charAt(kanji.length - 1);

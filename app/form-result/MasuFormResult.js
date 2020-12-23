@@ -1,6 +1,6 @@
 const StringUtils = require("../utils/StringUtils");
 const CommonConstants = require("../utils/constants/Common");
-const FormResult = require("../form_result/FormResult");
+const FormResult = require(".//FormResult");
 
 module.exports = class MasuFormResult extends FormResult {
     constructor(verb, tense, type) {

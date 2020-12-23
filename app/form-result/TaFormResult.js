@@ -1,8 +1,8 @@
 const StringUtils = require("../utils/StringUtils");
 const CommonConstants = require("../utils/constants/Common");
-const FormResult = require("../form_result/FormResult");
-const MasuFormResult = require("../form_result/MasuFormResult");
-const NaiFormResult = require("../form_result/NaiFormResult");
+const FormResult = require(".//FormResult");
+const MasuFormResult = require(".//MasuFormResult");
+const NaiFormResult = require(".//NaiFormResult");
 
 module.exports = class TaFormResult extends FormResult {
     constructor(verb, type) {

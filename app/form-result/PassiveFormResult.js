@@ -1,25 +1,25 @@
 const StringUtils = require("../utils/StringUtils");
-const FormResult = require("../form_result/FormResult");
+const FormResult = require(".//FormResult");
 
-module.exports = class PotentialFormResult extends FormResult {
+module.exports = class PassiveFormResult extends FormResult {
     constructor(verb) {
         super();
-        this.result1 = PotentialFormResult.convertVerbToVpotential(verb);
+        this.result1 = PassiveFormResult.convertVerbToVpassive(verb);
         return this;
     }
 
-    static convertVerbToVpotential(verb) {
+    static convertVerbToVpassive(verb) {
         let group = verb[0].group;
         let kanji = verb[0].kanji;
         switch (group) {
             case 1:
             case 4:
-                return this.convertLastCharacterToVpotential(kanji).concat("る");
+                return this.convertLastCharacterToVpassive(kanji).concat("れる");
             case 2:
                 return StringUtils.repmoveLastCharacter(kanji).concat("られる");
             case 3:
                 if (verb[0].furigana.contains("す")) {
-                    return "できる";
+                    return "される";
                 } else if (verb[0].furigana.contains("く")) {
                     return "こられる";
                 }
@@ -28,9 +28,9 @@ module.exports = class PotentialFormResult extends FormResult {
         }
     }
 
-    static convertLastCharacterToVpotential(kanji) {
-        let input = "うくすつぬふむるぐずづぶぷ";
-        let output = "えけせてねへめれげぜでべぺ";
+    static convertLastCharacterToVpassive(kanji) {
+        let input = "うくすつぬふむゆるぐずづぶぷ";
+        let output = "わかさたなはまやらがざだばぱ";
         let lastCharacter = kanji.charAt(kanji.length - 1);
         let idx = input.indexOf(lastCharacter);
         if (idx < 0) {

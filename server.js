@@ -1,10 +1,17 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const cors = require("cors");
+const session = require('express-session');
+const bodyParser = require("body-parser");
 
 const app = express();
 
-app.use(cors())
+app.use(cors());
+
+app.use(session({
+    resave: true,
+    saveUninitialized: true,
+    secret: 'adbc1234',
+    cookie: { secure: true }}));
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
@@ -21,6 +28,7 @@ app.get("/", (req, res) => {
 });
 
 require("./app/routes/verb.routes")(app);
+require("./app/routes/authentication.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3000;

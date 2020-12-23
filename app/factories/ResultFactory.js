@@ -3,13 +3,13 @@ const Tense = db.tense;
 const Type = db.type;
 
 const NumberUtils = require("../utils/NumberUtils");
-const MasuFormResult = require("../form_result/MasuFormResult");
-const NaiFormResult = require("../form_result/NaiFormResult");
-const TaFormResult = require("../form_result/TaFormResult");
-const TeFormResult = require("../form_result/TeFormResult");
-const PotentialFormResult = require("../form_result/PotentialFormResult");
-const PassiveFormResult = require("../form_result/PassiveFormResult");
-const ConditionalFormResult = require("../form_result/ConditionalFormResult");
+const MasuFormResult = require("../form-result/MasuFormResult");
+const NaiFormResult = require("../form-result/NaiFormResult");
+const TaFormResult = require("../form-result/TaFormResult");
+const TeFormResult = require("../form-result/TeFormResult");
+const PotentialFormResult = require("../form-result/PotentialFormResult");
+const PassiveFormResult = require("../form-result/PassiveFormResult");
+const ConditionalFormResult = require("../form-result/ConditionalFormResult");
 
 module.exports = class ResultFactory {
     constructor(verb, form) {
