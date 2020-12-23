@@ -12,7 +12,8 @@ var session;
 // Retrieve a random Verb from the database.
 exports.findRandom = async (req, res) => {
 
-    if (req.session.User == null) {
+    session = req.session;
+    if (session.User == null) {
         // return res.status(200).json({status: 'error', session: 'No session'});
     }
 
