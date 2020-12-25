@@ -2,9 +2,9 @@ var session;
 
 exports.login = (req, res) => {
 
-    session = req.session;
-    let user = req.body.username;
-    let pass = req.body.password;
+    session = req.session;req.query.user
+    let user = req.body.user;
+    let pass = req.body.pass;
 
     if (user == 'admin' && pass == '123456') {
         session.User = {

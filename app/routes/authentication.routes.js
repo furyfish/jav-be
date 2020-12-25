@@ -4,10 +4,10 @@ module.exports = app => {
     let router = require("express").Router();
 
     // Login
-    router.get("/login", authentication.login);
+    router.post("/login", authentication.login);
 
     // Logout
-    router.get("/logout", authentication.logout);
+    router.post("/logout", authentication.logout);
 
     app.use('/api/authentication', router);
 };
