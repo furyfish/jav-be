@@ -18,10 +18,12 @@ module.exports = class PassiveFormResult extends FormResult {
             case 2:
                 return StringUtils.repmoveLastCharacter(kanji).concat("られる");
             case 3:
-                if (verb[0].furigana.contains("す")) {
+                if (verb[0].kanji === "為る" || verb[0].kanji === "する") {
                     return "される";
-                } else if (verb[0].furigana.contains("く")) {
+                } else if (verb[0].kanji === "来る") {
                     return "こられる";
+                } else {
+                    return verb[0].kanji.replace("する", "").concat("される");
                 }
             default:
                 break;

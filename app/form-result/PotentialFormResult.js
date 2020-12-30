@@ -11,6 +11,8 @@ module.exports = class PotentialFormResult extends FormResult {
     static convertVerbToVpotential(verb) {
         let group = verb[0].group;
         let kanji = verb[0].kanji;
+        let str = "aaaa";
+        str.con
         switch (group) {
             case 1:
             case 4:
@@ -18,10 +20,12 @@ module.exports = class PotentialFormResult extends FormResult {
             case 2:
                 return StringUtils.repmoveLastCharacter(kanji).concat("られる");
             case 3:
-                if (verb[0].furigana.contains("す")) {
+                if (verb[0].kanji === "為る" || verb[0].kanji === "する") {
                     return "できる";
-                } else if (verb[0].furigana.contains("く")) {
+                } else if (verb[0].kanji === "来る") {
                     return "こられる";
+                } else {
+                    return verb[0].kanji.replace("する", "").concat("できる");
                 }
             default:
                 break;

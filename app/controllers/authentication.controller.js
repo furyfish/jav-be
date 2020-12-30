@@ -1,4 +1,4 @@
-var session;
+let session;
 
 exports.login = (req, res) => {
 
