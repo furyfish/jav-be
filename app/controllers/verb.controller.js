@@ -84,12 +84,13 @@ exports.findRandom = async (req, res) => {
     let index = NumberUtils.getRandomNumberInRange(0, activeForms.length - 1);
     let form = forms.get(activeForms[index]);
 
-    // set furigana
     let result = await new ResultFactory(verb, form);
     let result1 = result.result1;
+    let result2 = result1;
+
+    // set furigana
     let sFurigana = verb[0].furigana;
     sFurigana = sFurigana.replace(/\]\[/g, ',').replace(/\[/g, '').replace(/\]/g, '');
-    let result2 = result1;
     let furigana = sFurigana.split(',');
 
     // set result2
